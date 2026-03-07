@@ -1,0 +1,78 @@
+#!/bin/sh
+#!/bin/sh
+
+step=5
+sink="${SINK:-$(pactl info | awk -F': ' '/Default Sink/ {print $2}')}"
+
+# vget
+# @description Retrieves and prints current volume of the default sink
+vget() {
+    current=$(pactl list sinks | awk -v sink="${sink}" '
+        $1=="Name:" && $2==sink {found=1}
+        found && /Volume:/ {print $5; exit}
+    ')
+    printf 'Volume: %s\n' "${current}"
+}
+
+# vset
+# @description Sets the volume of the default sink to a specific percentage
+# @param {number} value - volume 0-100%
+vset() {
+    case "${1}" in
+        ''|*[!0-9]*)
+            echo "Value must be a number 0-100"
+            exit 1
+            ;;
+    esac
+
+    [ "${1}" -gt 100 ] && new=100 || new="${1}"
+    [ "${1}" -lt 0 ] && new=0
+
+    pactl set-sink-volume "${sink}" "${new}%"
+    vget
+}
+
+# vchange
+# @description Adjusts volume incrementally up or down by step percentage
+# @param {string} direction - 'up' or 'down'
+vchange() {
+    current=$(pactl list sinks | awk -v sink="${sink}" '
+        $1=="Name:" && $2==sink {found=1}
+        found && /Volume:/ {print $5; exit}
+    ' | tr -d '%')
+
+    case "${1}" in
+    up)
+        new=$((current + step))
+        [ "${new}" -gt 100 ] && new=100
+        ;;
+    down)
+        new=$((current - step))
+        [ "${new}" -lt 0 ] && new=0
+        ;;
+    *)
+        echo "Usage: $0 change {up|down}"
+        exit 1
+        ;;
+    esac
+
+    pactl set-sink-volume "${sink}" "${new}%"
+    vget
+}
+
+# Parse command-line arguments
+case "${1}" in
+get)
+    vget
+    ;;
+set)
+    vset "${2}"
+    ;;
+change)
+    vchange "${2}"
+    ;;
+*)
+    echo "Usage: $0 <get|set|change> [value|up|down]"
+    exit 1
+    ;;
+esac

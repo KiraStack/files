@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# Monitors
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+# Layout
+bspc config window_gap 16
+bspc config split_ratio 0.5
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+bspc config padding 0
+
+# Window placement
+bspc config automatic_scheme longest_side
+bspc config initial_polarity second_child
+bspc config removal_adjustment true
+
+# Pointer behavior
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus false
+bspc config pointer_follows_monitor true
+bspc config pointer_motion_interval 7
+bspc config pointer_modifier mod4
+bspc config pointer_action1 move
+bspc config pointer_action2 resize_side
+bspc config pointer_action3 resize_corner
+
+# Window rules
+bspc rule -a Navigator desktop=1 follow=on
+bspc rule -a firefox desktop=1 follow=on
+bspc rule -a discord desktop=2 follow=on
+bspc rule -a Code desktop=3 follow=on
+bspc rule -a Steam desktop=4 follow=on
+bspc rule -a mpv state=fullscreen follow=on
+
+# Remove cache
+rm -rf $HOME/.cache/dunst/
+rm $HOME/.cache/dunst.log
+rm $HOME/.cache/eww-calendar.lock
+rm $HOME/.cache/eww-control-center.lock
+
+# Disable mouse acceleration
+xset m 0 0
+
+# Background
+hsetroot -fill "$HOME/.config/bspwm/imgs/wallpaper.png" &
+
+# Autostart programs
+eww daemon &
+eww open bar
+pgrep -x sxhkd > /dev/null || sxhkd &
+dunst --config $HOME/.config/dunst/dunstrc &
+pkill picom > /dev/null 2>&1
+picom --config $HOME/.config/picom/picom.conf &
+
+# Clipboard manager
+# cliphist wipe &
+# wl-paste --type text --watch cliphist store &
+# wl-paste --type image --watch cliphist store &
+clipcatd &

@@ -1,0 +1,63 @@
+# Console
+super + Return
+    kitty
+
+# Browser
+super + w
+  firefox
+
+# File Manager
+# super + n
+#   thunar
+
+# Program Launcher
+super + d
+    rofi -show drun
+
+# Clipboard manager
+super + v
+    clipcat-menu
+
+# Screenshot
+super + p
+    grim -g "$(slurp)" - | wl-copy
+
+# Focus
+super + {h,j,k,l}
+    bspc node -f {west,south,north,east}
+
+# Move windows
+super + shift + {h,j,k,l}
+    bspc node -m {west,south,north,east}
+
+# Toggle floating
+super + {f,g}
+    bspc node -t {~floating,~fullscreen}
+
+# Switch desktops
+super + {1-9}
+    bspc desktop -f ^{1-9}
+super + shift + {1-9}
+    bspc node -d --follow ^{1-9}
+
+# Close window
+super + q
+    bspc node -c
+
+# Volume management
+XF86AudioRaiseVolume
+  amixer -q set Master 5%+ unmute
+XF86AudioLowerVolume
+  amixer -q set Master 5%- unmute
+XF86AudioMute
+  amixer -D pulse sset Master toggle-mute
+
+# Brightness management
+XF86MonBrightnessUp
+  xbacklight -inc 5
+XF86MonBrightnessDown
+  xbacklight -dec 5
+
+# Restart bspwm
+super + alt + r
+    bspc wm -r

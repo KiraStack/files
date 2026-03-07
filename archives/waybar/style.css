@@ -1,0 +1,78 @@
+/* Colors */
+@define-color bg     #1a1b26; /* Main background */
+@define-color bg2    #292e42; /* Secondary background */
+@define-color bg3    #414868; /* Muted background */
+@define-color text   #c0caf5; /* Primary text */
+@define-color tp     rgba(26, 27, 38, 0); /* Transparent */
+@define-color red    #f7768e; /* Critical */
+@define-color green  #9ece6a; /* Success */
+@define-color blue   #7aa2f7; /* Accent */
+@define-color yellow #e0af68; /* Warning */
+
+/* Base */
+* {
+    font-family: 'JetBrainsMono Nerd Font';
+    font-weight: bold;
+}
+
+/* Waybar */
+window#waybar {
+    background-color: @tp;
+}
+
+/* Shared module styling */
+#workspaces,
+#network,
+#clock,
+#battery,
+#pulseaudio {
+    font-size: 14px;
+    color: @text;
+    background-color: @bg;
+    border-radius: 5px;
+    padding: 0.5em;
+}
+
+/* Workspaces */
+#workspaces button {
+    border: 0;
+    padding: 0.2em 0.4em;
+    margin: 0 0.1em;
+    color: @text;
+    border-radius: 5px;
+    /* transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1); */
+}
+
+#workspaces button.active {
+    color: @bg;
+    background-color: @blue;
+}
+
+#workspaces button:hover {
+    color: @bg;
+    background-color: @blue;
+}
+
+/* Network states */
+#network.ethernet {
+    color: @green;
+}
+#network.wifi {
+    color: @blue;
+}
+
+/* Battery states */
+#battery.charging,
+#battery.plugged {
+    color: @green;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation: blink 0.5s linear infinite alternate;
+}
+
+/* Audio */
+#pulseaudio.muted {
+    color: @red;
+}

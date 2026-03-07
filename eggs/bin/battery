@@ -1,0 +1,20 @@
+#!/bin/sh
+
+path="/sys/class/power_supply/BAT0"
+
+# Check if battery is available
+if [ ! -d "${path}" ]; then
+    echo "An error occured: battery unavailable"
+    exit 1
+fi
+
+percentage=$(cat "${path}/capacity")
+batstatus=$(cat "${path}/status")
+
+# Check if capacity is a number
+if ! echo "${percentage}" | grep -Eq '^[0-9]+$'; then
+    echo "Battery: invalid data"
+    exit 1
+fi
+
+echo "${percentage}% ~ ${batstatus}"

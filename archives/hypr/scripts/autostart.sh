@@ -1,0 +1,1 @@
+/nix/store/pqgxkz1ady944h5a8p5y304b8kjiimxi-home-manager-files/.config/hypr/scripts/autostart.sh

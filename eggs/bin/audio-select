@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# list_sinks_with_details
+# @description Lists sinks with their ID and description
+list_sinks_with_details() {
+    pactl list sinks | awk '
+    BEGIN { sink_id=""; desc="" }
+    /^Sink / {
+        if (sink_id != "" && desc != "Ignore") { print sink_id "\t" desc }
+        sink_id = $2; desc=""
+    }
+    /device.description =/ {
+        gsub(/.*device.description = "/, "", $0)
+        gsub(/"$/, "", $0)
+        desc = $0
+    }
+    END { if (sink_id != "" && desc != "Ignore") print sink_id "\t" desc }
+    '
+}
+
+# select_sink
+# @description Prompts user to select a sink using fzf
+# @return selected sink ID
+select_sink() {
+    SELECTED=$(list_sinks_with_details | column -t -s $'\t' | fzf --height=~100%)
+
+    [ -z "${SELECTED}" ] && {
+        echo "No sink selected."
+        exit 1
+    }
+
+    # extract sink ID
+    echo "${SELECTED}" | awk '{print $1}'
+}
+
+# get_sink_name
+# @description Returns the sink name for a given sink ID
+# @param {string} id - sink ID
+get_sink_name() {
+    pactl list sinks | awk -v id="${1}" '
+    BEGIN { sink_id=""; sink_name="" }
+    /^Sink / { sink_id = $2 }
+    /Name:/ { gsub(/Name: /, "", $0); if (sink_id == id) sink_name = $0 }
+    END { print sink_name }
+    '
+}
+
+SINK_ID=$(select_sink)
+SINK_NAME=$(get_sink_name "${SINK_ID}")
+
+# Set the default sink
+pactl set-default-sink "${SINK_NAME}"
+echo "Sink ${SINK_NAME} set as default."

@@ -1,0 +1,31 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # Checkout the repository
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            # Get nix (using `curl`)
+            - name: Install Nix
+              run: |
+                  curl -L https://nixos.org/nix/install | sh
+                  . $HOME/.nix-profile/etc/profile.d/nix.sh
+
+            # Generate the project (using `nix`)
+            - name: Nix build
+              run: nix build
+
+            # Run tests (using `nix`)
+            - name: Nix test
+              run: nix test

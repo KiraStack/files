@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "Hello, $USER! Welcome to your system."

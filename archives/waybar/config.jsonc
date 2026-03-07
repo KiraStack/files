@@ -1,0 +1,97 @@
+{
+    // Options
+    "position": "bottom",
+    "layer": "bottom",
+    "margin": "0 0 15 0", // order: 'top', 'right', 'bottom', 'left'.
+    "spacing": 5,
+
+    // Load components
+    // "include": [],
+
+    // Components
+    "modules-left": [],
+    "modules-center": [
+        "hyprland/workspaces",
+        "network",
+        "clock",
+        "battery",
+        "pulseaudio",
+    ],
+    "modules-right": [],
+
+    // Workspaces
+    "hyprland/workspaces": {
+        "on-scroll-up": "hyprctl dispatch workspace r-1",
+        "on-scroll-down": "hyprctl dispatch workspace r+1",
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{}",
+        "format-icons": {
+            "urgent": "",
+            "active": "",
+            "default": "",
+        },
+        "persistent-workspaces": {
+            "*": 1,
+        },
+    },
+
+    // Blank
+    // "custom/empty": {},
+
+    // Clock
+    "clock": {
+        "format": "{:%H:%M %a}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}",
+    },
+
+    // Network
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": " ",
+        "format-ethernet": "  ",
+        "format-disconnected": "Disconnected",
+        "tooltip-format": " {ifname} via {gwaddri}",
+        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
+        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
+        "tooltip-format-disconnected": "Disconnected",
+        "max-length": 50,
+        "on-click": "alacritty --class dotfiles-floating -e nmtui",
+        "on-click-right": "~/dotfiles/.settings/networkmanager.sh",
+    },
+
+    // Battery
+    "battery": {
+        "states": {
+            "warning": 25,
+            "critical": 15,
+        },
+        "format": "{icon}{capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon}{time}",
+        "format-icons": [" ", " ", " ", " ", " "],
+    },
+
+    // Audio (using pulseaudio)
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": "  ",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": " ",
+            "hands-free": " ",
+            "headset": " ",
+            "phone": " ",
+            "portable": " ",
+            "car": " ",
+            "default": [" ", " ", " "],
+        },
+        "on-click": "pavucontrol",
+    },
+}

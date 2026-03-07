@@ -1,0 +1,89 @@
+#!/bin/sh
+
+step=5
+
+# Find the first available backlight device in /sys/class/backlight
+for d in /sys/class/backlight/*; do
+    [ -d "${d}" ] || continue
+    path="${d}"
+    break
+done
+
+[ -z "${path}" ] && {
+    echo "No backlight device found"
+    exit 1
+}
+
+# bget
+# @description Retrieves and prints the current brightness and maximum brightness
+bget() {
+    current=$(cat "${path}/brightness")
+    max=$(cat "${path}/max_brightness")
+    printf 'Brightness: %s/%s\n' "${current}" "${max}"
+}
+
+# bset
+# @description Sets the brightness to an explicit value
+# @param {number} value - The brightness value to set (must be <= max brightness)
+bset() {
+    max=$(cat "${path}/max_brightness")
+
+    case "${1}" in
+        ''|*[!0-9]*)
+            echo "Value must be a number"
+            exit 1
+            ;;
+    esac
+
+    [ "${1}" -gt "${max}" ] && {
+        echo "Value exceeds max brightness (${max})"
+        exit 1
+    }
+
+    echo "${1}" > "${path}/brightness"
+    bget
+}
+
+# bchange
+# @description Adjusts brightness incrementally up or down by a percentage of max brightness
+# @param {string} direction - 'up' to increase, 'down' to decrease
+bchange() {
+    current=$(cat "${path}/brightness")
+    max=$(cat "${path}/max_brightness")
+    change=$((max * step / 100))
+
+    case "${1}" in
+    up)
+        new=$((current + change))
+        [ "${new}" -gt "${max}" ] && new="${max}"
+        ;;
+    down)
+        new=$((current - change))
+        [ "${new}" -lt 1 ] && new=1
+        ;;
+    *)
+        echo "Usage: $0 change {up|down}"
+        exit 1
+        ;;
+    esac
+
+    echo "${new}" > "${path}/brightness"
+    bget
+}
+
+# Parse command-line arguments
+case "${1}" in
+get)
+    bget
+    ;;
+set)
+    bset "${2}"
+    ;;
+change)
+    bchange "${2}"
+    ;;
+*)
+    echo "Usage: $0 <get|set|change> [value|up|down]"
+    exit 1
+    ;;
+esac

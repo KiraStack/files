@@ -1,0 +1,52 @@
+#!/bin/sh
+# Made by elenapan (ghub), modified by kira (kirastack/ghub)
+
+# Foreground colors
+fg_base0=$'\e[30m'
+fg_base1=$'\e[31m'
+fg_base2=$'\e[32m'
+fg_base3=$'\e[33m'
+fg_base4=$'\e[34m'
+fg_base5=$'\e[35m'
+fg_base6=$'\e[36m'
+fg_base7=$'\e[37m'
+
+# Background colors
+bg_base0=$'\e[40m'
+bg_base1=$'\e[41m'
+bg_base2=$'\e[42m'
+bg_base3=$'\e[43m'
+bg_base4=$'\e[44m'
+bg_base5=$'\e[45m'
+bg_base6=$'\e[46m'
+bg_base7=$'\e[47m'
+
+# Escape sequences
+bold=$'\e[1m'
+reset=$'\e[0m'
+dim=$'\e[2m'
+underline=$'\e[4m'
+blink=$'\e[5m'
+reverse=$'\e[7m'
+hidden=$'\e[8m'
+
+# System info
+wm=$(xprop -id $(xprop -root -notype | awk '$1=="_NET_SUPPORTING_WM_CHECK:"{print $5}') -notype -f _NET_WM_NAME 8t | grep "WM_NAME" | cut -f2 -d \")
+kernel=$(uname -r | cut -d '-' -f1)
+shell=$(basename "${SHELL}")
+dimensions=$(xrandr | grep '*' | awk '{print $1}' | head -n1)
+network=$(nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2)
+
+# Clear screen
+tput clear
+
+# Output
+cat << EOF
+
+             ${fg_base6}wm${reset} ~ ${wm}${reset}
+   (\ /)     ${fg_base6}kr${reset} ~ ${kernel}${reset}
+   ( ${fg_base3}.${reset} ${fg_base3}.${reset})    ${fg_base6}sh${reset} ~ ${shell}${reset}
+   c(${fg_base3}"${reset})(${fg_base3}"${reset})   ${fg_base6}rs${reset} ~ ${dimensions}${reset}
+             ${fg_base6}wf${reset} ~ ${network}${reset}
+
+EOF
