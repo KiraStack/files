@@ -1,6 +1,6 @@
 # Console
 super + Return
-    kitty
+  kitty
 
 # Browser
 super + w
@@ -12,52 +12,88 @@ super + w
 
 # Program Launcher
 super + d
-    rofi -show drun
+  rofi -show drun
 
 # Clipboard manager
 super + v
-    clipcat-menu
+  clipcat-menu
 
 # Screenshot
 super + p
-    grim -g "$(slurp)" - | wl-copy
+  screenshot | wl-copy
 
 # Focus
 super + {h,j,k,l}
-    bspc node -f {west,south,north,east}
+  bspc node -f {west,south,north,east}
 
 # Move windows
 super + shift + {h,j,k,l}
-    bspc node -m {west,south,north,east}
+  bspc node -m {west,south,north,east}
 
-# Toggle floating
-super + {f,g}
-    bspc node -t {~floating,~fullscreen}
+# Toggle state
+super + f
+  bspc node -t floating
+super + g
+  bspc node -t fullscreen
 
 # Switch desktops
 super + {1-9}
-    bspc desktop -f ^{1-9}
-super + shift + {1-9}
-    bspc node -d --follow ^{1-9}
+  bspc desktop -f ^{1-9}
+
+# Switch and move focused node to desktop 1
+super + shift + 1
+  bspc node -d ^1 && bspc desktop -f ^1
+
+# Switch and move focused node to desktop 2
+super + shift + 2
+  bspc node -d ^2 && bspc desktop -f ^2
+
+# Switch and move focused node to desktop 3
+super + shift + 3
+  bspc node -d ^3 && bspc desktop -f ^3
+
+# Switch and move focused node to desktop 4
+super + shift + 4
+  bspc node -d ^4 && bspc desktop -f ^4
+
+# Switch and move focused node to desktop 5
+super + shift + 5
+  bspc node -d ^5 && bspc desktop -f ^5
+
+# Switch and move focused node to desktop 6
+super + shift + 6
+  bspc node -d ^6 && bspc desktop -f ^6
+
+# Switch and move focused node to desktop 7
+super + shift + 7
+  bspc node -d ^7 && bspc desktop -f ^7
+
+# Switch and move focused node to desktop 8
+super + shift + 8
+  bspc node -d ^8 && bspc desktop -f ^8
+
+# Switch and move focused node to desktop 9
+super + shift + 9
+  bspc node -d ^9 && bspc desktop -f ^9
 
 # Close window
 super + q
-    bspc node -c
+  bspc node -c
 
 # Volume management
 XF86AudioRaiseVolume
-  amixer -q set Master 5%+ unmute
+  volume change up
 XF86AudioLowerVolume
-  amixer -q set Master 5%- unmute
+  volume change down
 XF86AudioMute
-  amixer -D pulse sset Master toggle-mute
+  volume -D pulse sset Master toggle-mute
 
 # Brightness management
 XF86MonBrightnessUp
-  xbacklight -inc 5
+  brightness change up
 XF86MonBrightnessDown
-  xbacklight -dec 5
+  brightness change down
 
 # Restart bspwm
-super + alt + r
-    bspc wm -r
+super + alt + w
+  bspc wm -r

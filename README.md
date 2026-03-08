@@ -39,6 +39,7 @@ Rebuild or switch configuration:
 ```bash
 sudo nix flake update nixpkgs --flake /etc/nixos
 sudo nixos-rebuild switch --flake /etc/nixos#(hostname)
+sudo nixos-generate-config
 ```
 
 # Screenshots
