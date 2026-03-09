@@ -1,0 +1,32 @@
+#!/bin/sh
+
+BAT_PATH="/sys/class/power_supply"
+THRESHOLD=10
+notified=0
+
+# Get the battery path
+get_battery() {
+    for bat in "$BAT_PATH"/BAT*; do
+        [[ -d "$bat" ]] && echo "$bat" && return
+    done
+}
+
+# Subscribe to battery events
+while true; do
+    bat=$(get_battery)
+    [[ -z "$bat" ]] && sleep 60 && continue
+
+    capacity=$(cat "$bat/capacity")
+    status=$(cat "$bat/status")
+
+    if (( capacity <= THRESHOLD )) && [[ "$status" != "Charging" ]]; then
+        if (( notified == 0 )); then
+            dunstify -u critical -i battery-caution "Battery Low" "Battery at ${capacity}%!"
+            notified=1
+        fi
+    else
+        notified=0 # reset notifier once above threshold or charging
+    fi
+
+    sleep 60
+done

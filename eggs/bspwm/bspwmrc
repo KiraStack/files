@@ -50,6 +50,7 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 dunst --config $HOME/.config/dunst/dunstrc &
 pkill picom > /dev/null 2>&1
 picom --config $HOME/.config/picom/picom.conf &
+pgrep -f bin/alert > /dev/null 2>&1 || bin/alert &
 
 # Clipboard manager
 # cliphist wipe &
