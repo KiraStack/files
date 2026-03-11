@@ -8,7 +8,7 @@
 
   # Hardware
   videoDriver = "amdgpu"; # can be 'nvidia', 'amdgpu', or 'intel'
-  bluetoothSupport = false;
+  bluetoothSupport = true;
 
   # Localization
   timezone = "Europe/London";
