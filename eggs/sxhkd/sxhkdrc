@@ -80,6 +80,20 @@ super + shift + 9
 super + q
   bspc node -c
 
+# Brightness management
+XF86MonBrightnessUp
+  brightness change up
+XF86MonBrightnessDown
+  brightness change down
+
+# Media controls
+XF86AudioPlay
+  playerctl play-pause
+XF86AudioNext
+  playerctl next
+XF86AudioPrev
+  playerctl previous
+
 # Volume management
 XF86AudioRaiseVolume
   volume change up
@@ -88,11 +102,6 @@ XF86AudioLowerVolume
 XF86AudioMute
   volume -D pulse sset Master toggle-mute
 
-# Brightness management
-XF86MonBrightnessUp
-  brightness change up
-XF86MonBrightnessDown
-  brightness change down
 
 # Restart bspwm
 super + alt + w
