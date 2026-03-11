@@ -17,7 +17,7 @@ if status is-interactive
     alias nix-collect "sudo nix-collect-garbage -d"
     alias nix-optimise "nix-store --optimise"
     alias nix-update "sudo nix flake update nixpkgs --flake /etc/nixos"
-    alias nix-rebuild "sudo nixos-rebuild switch --flake /etc/nixos#(hostname)"
+    alias nix-rebuild "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)"
     alias nix-rebuild-rollback "sudo nixos-rebuild switch --rollback"
 
     # Prompt

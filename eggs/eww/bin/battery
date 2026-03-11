@@ -39,7 +39,7 @@ print_battery() {
         class="medium"
     elif (( capacity < 60 )); then
         icon="󰁿"
-        class="medium"
+        class="high"
     elif (( capacity < 70 )); then
         icon="󰂀"
         class="high"
@@ -62,6 +62,6 @@ print_battery() {
 print_battery
 
 # Subscribe to battery changes
-while sleep 30; do
+while sleep 1; do
     print_battery
 done

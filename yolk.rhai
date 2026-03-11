@@ -61,6 +61,9 @@ export const eggs = #{
         enabled: os.linux || os.darwin,
         templates: [], // copied as is
     },
+    hypr: #{
+        enabled: false,
+    },
     kitty: #{
         targets: home + "/.config/kitty",
         enabled: os.linux,

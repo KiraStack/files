@@ -3,65 +3,47 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 {
-  description = "None";
+  description = "A simple flake for an atomic system";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      home-manager,
-      ...
-    }:
+    { self, nixpkgs, ... }@inputs:
     let
-      system = "x86_64-linux";
-      mkSystem =
+      # Systems this flake can generate configs for
+      systems = [
+        "x86_64-linux" # Standard 64-bit Linux
+        "aarch64-linux" # ARM 64-bit Linux
+        "x86_64-darwin" # 64-bit macOS
+        "aarch64-darwin" # ARM 64-bit macOS (Apple Silicon)
+      ];
+
+      # Generate system-specific configurations
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+      mkHost =
         hostname:
         nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-            # Add an overlay
-            (
-              { pkgs, ... }:
-              {
-                nixpkgs.overlays = [
-                  inputs.neovim-nightly-overlay.overlays.default
-                ];
-              }
-            )
-
-            # Include the results of the hardware scan.
-            ./hardware-configuration.nix
-
-            # Add home-manager
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "backup";
-                users = {
-                  archie = import ./hosts/archie.nix;
-                };
-              };
-            }
-
-            # Include the NixOS module
-            ./hosts/home.nix
-          ];
+          system = forAllSystems (system: system);
+          modules = [ ./hosts/${hostname}/configuration.nix ];
+          specialArgs = {
+            overlays = import ./overlays { inherit inputs hostname; };
+            inherit
+              self
+              inputs
+              hostname
+              ;
+          };
         };
     in
     {
-      # Generate system config by hostname
+      templates = import ./templates;
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
       nixosConfigurations = {
-        archie = mkSystem "archie";
+        archie = mkHost "archie";
       };
     };
 }

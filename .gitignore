@@ -1,3 +1,33 @@
+# Git internals (and custom caches)
 /.git
 /.deployed_cache
 /.yolk_git
+
+# Nix build outputs
+result
+result-*
+*.drv
+*.nar
+*.log
+*.lock
+*.lock.json
+*.tmp
+
+# Nix store paths
+nix-store
+
+# Home-manager generated configs
+*.gcda
+*.gcno
+
+# Environment files
+.envrc # (direnv)
+
+# Editor temporary files
+*.swp
+*.swo
+*.backup
+*.bak
+
+# Flake lock and cache files (optional)
+flake.lock
