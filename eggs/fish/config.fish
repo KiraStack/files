@@ -20,6 +20,13 @@ if status is-interactive
     alias nix-rebuild "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)"
     alias nix-rebuild-rollback "sudo nixos-rebuild switch --rollback"
 
+    # Nix template aliases
+    alias nix-default 'nix develop /etc/nixos/templates#default'
+    alias nix-c 'nix develop /etc/nixos/templates#c-cpp'
+    alias nix-nix 'nix develop /etc/nixos/templates#nix'
+    alias nix-python 'nix develop /etc/nixos/templates#python'
+    alias nix-rust 'nix develop /etc/nixos/templates#rust'
+
     # Prompt
     function fish_prompt
         echo -n (set_color $fish_color_cwd)
