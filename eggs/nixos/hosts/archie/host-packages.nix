@@ -2,13 +2,8 @@
 {
   # Host-specific packages.
   # Edit as needed.
-  environment.systemPackages = with pkgs; [
-    gcc
-    glibc
-    # gcc-c++
-    libc
-    clang-tools
-    gnumake
-    cmake
+  environment.systemPackages = [
+    pkgs.libc
+    pkgs.llvmPackages.lldb
   ];
 }
