@@ -32,6 +32,7 @@
     mpv # media player
     neovim # terminal editor
     nixfmt # nix (code) formatter
+    notepad-next # notepad-like text editor
     overskride # bluetooth (gui)
     playerctl # control media players
     ranger # terminal file manager

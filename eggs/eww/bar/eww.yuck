@@ -11,8 +11,8 @@
   (box
     :class "date"
     (label
-      :class "tooltip"
-      :text "${date}"
+      :tooltip "${date}"
+      :text "${time}"
     )
   )
 )
@@ -22,8 +22,8 @@
   (box
     :class "network"
     (label
-      :class "${network == 'no' ? 'disconnected' : 'connected'}"
-      :text  "${network == 'no' ? '󰖪' : '󱚽'}"
+      :class "icon ${network == 'no' ? 'disconnected' : 'connected'}"
+      :text "${network == 'no' ? '󰖪' : '󱚽'}"
     )
   )
 )
@@ -33,7 +33,7 @@
   (box
     :class "microphone"
     (button
-      :class "${microphone == 'true' ? 'running' : 'muted'}"
+      :class "icon ${microphone == 'true' ? 'running' : 'muted'}"
       :onclick "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
       (label :text "${microphone == 'true' ? '󰍬' : '󰍭'}")
     )
@@ -53,7 +53,7 @@
                   esac;
                   $HOME/bin/speakers"
       (label
-        :class "${speakers.muted ? 'muted' : ''}"
+        :class "icon ${speakers.muted ? 'muted' : ''}"
         :text "${speakers.muted ? '󰖁' : speakers.volume > 70 ? '󰕾' : speakers.volume > 35 ? '󰖀' : '󰕿'}"
         :tooltip "${speakers.muted ? 'Muted' : speakers.volume + '%'}"
       )
@@ -70,9 +70,10 @@
 ; Battery capacity widget
 (defwidget battery []
   (box
+    :class "battery"
     (label
-      :class "${EWW_BATTERY["BAT0"].capacity < 20 ? 'critical' : ''}"
-      :text  "${EWW_BATTERY["BAT0"].capacity > 95 ? '󰁹'
+      :class "icon ${EWW_BATTERY["BAT0"].capacity < 20 ? 'critical' : ''}"
+      :text "${EWW_BATTERY["BAT0"].capacity > 95 ? '󰁹'
       : EWW_BATTERY["BAT0"].capacity > 90 ? '󰂂'
       : EWW_BATTERY["BAT0"].capacity > 80 ? '󰂁'
       : EWW_BATTERY["BAT0"].capacity > 70 ? '󰂀'

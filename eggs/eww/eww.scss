@@ -1,91 +1,10 @@
-/* Pre-processor variables */
-$base00: #1a1b26; // bg0
-$base01: #16161e; // bg1
-$base02: #24283b; // bg2
-$base03: #444b6a; // comments / inactive fg
-$base04: #565f89; // dark fg
-$base05: #a9b1d6; // fg0
-$base06: #b1b9f1; // fg1
-$base07: #c0caf5; // fg2
-$base08: #f7768e; // red
-$base09: #ff9e64; // orange
-$base10: #e0af68; // yellow
-$base11: #9ece6a; // green
-$base12: #3dcfff; // cyan
-$base13: #7aa2f7; // blue
-$base14: #bb9af7; // magenta
-$base15: #9a7fd1; // purple
-
-/* Light mode */
-@media (prefers-color-scheme: light) {
-    $base00: #fafafa; // bg0
-    $base01: #f0f0f0; // bg1
-    $base02: #e0e0e0; // bg2
-    $base03: #666666; // comments / inactive fg
-    $base04: #444444; // dark fg
-    $base05: #2a2a2a; // fg0
-    $base06: #3a3a3a; // fg1
-    $base07: #4a4a4a; // fg2
-    $base08: #d2545d; // red
-    $base09: #d27f4f; // orange
-    $base10: #c3a55f; // yellow
-    $base11: #6fa65f; // green
-    $base12: #2c9abf; // cyan
-    $base13: #4f7aa6; // blue
-    $base14: #9b6fbf; // magenta
-    $base15: #7a5fa3; // purple
-}
-
-/* Reset */
+/* Global styles */
 * {
     all: unset;
-}
-
-/* Window styles */
-window {
-    font-family: 'JetBrainsMono Nerd Font Mono, monospace';
-    font-weight: normal;
-}
-
-/* Tooltip styles */
-tooltip {
-    background-color: $base00;
-    color: $base05;
     font-family: 'JetBrainsMono Nerd Font Mono, monospace';
     font-weight: bold;
-    font-size: 1.1rem;
-}
-
-/* Scale styles */
-scale {
-    /* Background styles */
-    trough {
-        background-color: $base02;
-        min-height: 5px;
-        min-width: 100px;
-        border-radius: 10px;
-        margin-left: 10px;
-        margin-right: 20px;
-
-        /* Foreground slider styles */
-        highlight {
-            background-color: $base05;
-            border-radius: 10px;
-        }
-    }
-
-    /* Warning state */
-    .warning trough highlight {
-        background-color: $base10;
-        color: #1a1b26;
-    }
-
-    /* Error state */
-    .error trough highlight {
-        background-color: $base08;
-        color: #1a1b26;
-    }
 }
 
 /* Headers */
+@import 'colors.scss';
 @import 'bar/eww.scss';

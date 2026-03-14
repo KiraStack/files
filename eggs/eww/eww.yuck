@@ -3,13 +3,14 @@
 
 ; Queries
 (defpoll date :interval "1m" "date +%d/%m")
+(defpoll time :interval "1m" "date +%H:%M")
 
 ; Listeners
-(deflisten workspaces "bin/workspaces")
-(deflisten speakers "bin/speakers")
-(deflisten battery "bin/battery")
-(deflisten network "bin/network")
-(deflisten microphone "bin/microphone")
+(deflisten battery "tasks/battery")
+(deflisten microphone "tasks/microphone")
+(deflisten network "tasks/network")
+(deflisten speakers "tasks/speakers")
+(deflisten workspaces "tasks/workspaces")
 
 ; Headers
 (include "bar/eww.yuck")

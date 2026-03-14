@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Define directories
+source="$HOME/.config/yolk/conf/imgs/"
+dest="$HOME/.config/bspwm/imgs"
+
+# Find all image descendants
+img=$(find "$source" -type f \( \
+    -iname "*.png"  -o \
+    -iname "*.jpg"  -o \
+    -iname "*.jpeg" -o \
+    -iname "*.webp" -o \
+    -iname "*.bmp" \
+\) | sort | while read -r f; do
+    basename "$f"
+done | rofi -dmenu -p "Wallpaper")
+
+# Exit if nothing selected
+[ -z "$img" ] && exit 0
+
+# Resolve path from filename
+path=$(find "$source" -type f -name "$img" | head -n 1)
+[ -z "$path" ] && exit 1
+
+# Replace current file
+mkdir -p "$dest"
+cp -f "$path" "$dest/wallpaper.png"
+
+# Change background using the copied file
+hsetroot -fill "$dest/wallpaper.png"
+

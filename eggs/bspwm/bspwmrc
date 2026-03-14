@@ -36,6 +36,9 @@ rm $HOME/.cache/dunst.log
 rm $HOME/.cache/eww-calendar.lock
 rm $HOME/.cache/eww-control-center.lock
 
+# Set default pointer
+xsetroot -cursor_name left_ptr
+
 # Disable mouse acceleration
 xset m 0 0
 

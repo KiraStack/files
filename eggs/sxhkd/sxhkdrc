@@ -21,6 +21,8 @@ super + v
 # Screenshot
 super + p
   screenshot
+super + shift + p
+  screenshot select
 
 # Focus
 super + {h,j,k,l}
